@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск периодов по планетам</title>
+</head>
+<body>
+    <h1>Поиск периодов по планетам</h1>
+
+    <form method="get">
+        <h3>Выберите условия для каждой планеты:</h3>
+        {% for planet in planets %}
+            <div>
+                <h4>{{ planet.label }}</h4>
+
+                <label for="zodiac_{{ planet.value }}">Выберите знак зодиака:</label>
+                <select name="zodiac_{{ planet.value }}" id="zodiac_{{ planet.value }}">
+                    <option value="">-</option>
+                    {% for sign in zodiac_signs %}
+                        <option value="{{ sign.value }}">{{ sign.label }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="retrograde_{{ planet.value }}">
+                    <input type="checkbox" name="retrograde_{{ planet.value }}" value="R">
+                    Ретроградный
+                </label>
+            </div>
+            <hr>
+        {% endfor %}
+
+        <input type="submit" value="Найти периоды">
+    </form>
+
+    <h2>Найденные периоды:</h2>
+    <ul>
+        {% for period in periods %}
+            <li>{{ period.0 }} - {{ period.1 }}</li>
+        {% empty %}
+            <li>Периоды не найдены.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

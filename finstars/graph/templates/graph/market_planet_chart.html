@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graph with Date Range</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<!-- Форма для ввода дат -->
+<form id="date-range-form">
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date" name="start-date">
+
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date" name="end-date">
+
+    <button type="submit">Update Graph</button>
+</form>
+
+<!-- Див для графика -->
+<div id="graph-div"></div>
+
+<script>
+    // Функция для установки значений текущего года по умолчанию
+    function setDefaultDates() {
+        var currentYear = new Date().getFullYear();
+        var startDate = currentYear + '-01-01';
+        var endDate = currentYear + '-12-31';
+
+        $('#start-date').val(startDate);
+        $('#end-date').val(endDate);
+    }
+
+    // Функция для обновления графика на основе введенных дат
+    function updateGraph(startDate, endDate) {
+        console.log('Updating graph with dates:', startDate, endDate);
+
+        // AJAX-запрос на сервер для получения данных по новым датам
+        $.ajax({
+            url: '{% url "market_planet_chart" %}',  // Обнови URL на свой
+            data: {
+                'start_date': startDate,
+                'end_date': endDate
+            },
+            success: function (data) {
+                console.log('Data received:', data);
+                $('#graph-div').html(data);  // Обновляем график
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', status, error);
+            }
+        });
+    }
+
+    // Устанавливаем значения текущего года по умолчанию при загрузке страницы
+    $(document).ready(function () {
+        setDefaultDates();
+
+        // При загрузке сразу вызываем обновление графика для текущего года
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
+        updateGraph(startDate, endDate);
+    });
+
+    // Обработка отправки формы
+    $('#date-range-form').on('submit', function (event) {
+        event.preventDefault();
+
+        // Получаем введенные даты
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
+
+        if (startDate && endDate) {
+            // Если даты введены, обновляем график
+            updateGraph(startDate, endDate);
+        } else {
+            alert('Please select both start and end dates.');
+        }
+    });
+</script>
+
+</body>
+</html>
