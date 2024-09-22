@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2x6=&v%aco$p2-iat$+^-^rx#f1u6vszge)6bid@i)&czil2k8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.ngrok-free.app', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'channels',
     'graph',
     'csp',
+    'main',
 ]
 # Отключаем защиту для eval
 CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'")
