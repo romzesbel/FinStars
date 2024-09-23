@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'graph',
     'csp',
     'main',
+    'weather',
 ]
 # Отключаем защиту для eval
 CSP_SCRIPT_SRC = ("'self'", "'unsafe-eval'")

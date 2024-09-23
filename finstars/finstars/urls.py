@@ -9,5 +9,6 @@ urlpatterns = [
     path('dash_app/', include('dash_app.urls')),
     path('search/', include('search.urls')),  # Добавляем путь к нашему приложению
     path('graph/', include('graph.urls')),  # Подключаем маршруты из приложения market_data
+    path('weather/', include('weather.urls')),
 ]
 

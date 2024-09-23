@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combined Graphs</title>
+    <!-- Подключаем библиотеку Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Графики S&P 500, температуры и осадков в Пхукете</h1>
+
+    <!-- График S&P 500 -->
+    <div id="sp500-graph">
+        <h2>S&P 500 за последний год</h2>
+        {{ sp500_div|safe }}
+    </div>
+
+    <!-- График температуры -->
+    <div id="weather-graph">
+        <h2>Температура в Пхукете за последний год</h2>
+        {{ weather_div|safe }}
+    </div>
+
+    <!-- График осадков -->
+    <div id="precipitation-graph">
+        <h2>Среднесуточные осадки в Пхукете за последний год</h2>
+        {{ precipitation_div|safe }}
+    </div>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
