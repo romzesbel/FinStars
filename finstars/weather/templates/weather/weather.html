@@ -7,24 +7,20 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <h1>Графики S&P 500, температуры и осадков в Пхукете</h1>
+    <h1>Объединенные графики S&P 500, температуры и осадков в Пхукете</h1>
 
-    <!-- График S&P 500 -->
-    <div id="sp500-graph">
-        <h2>S&P 500 за последний год</h2>
-        {{ sp500_div|safe }}
-    </div>
+    <!-- Форма для выбора периода -->
+    <form method="GET" action="">
+        <label for="start_date">Начальная дата:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date|default_if_none:'' }}">
+        <label for="end_date">Конечная дата:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date|default_if_none:'' }}">
+        <button type="submit">Обновить графики</button>
+    </form>
 
-    <!-- График температуры -->
-    <div id="weather-graph">
-        <h2>Температура в Пхукете за последний год</h2>
-        {{ weather_div|safe }}
-    </div>
-
-    <!-- График осадков -->
-    <div id="precipitation-graph">
-        <h2>Среднесуточные осадки в Пхукете за последний год</h2>
-        {{ precipitation_div|safe }}
+    <!-- Объединенный график -->
+    <div id="combined-graph">
+        {{ combined_div|safe }}
     </div>
 
     {% if error %}
