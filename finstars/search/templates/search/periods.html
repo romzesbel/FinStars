@@ -33,12 +33,17 @@
     </form>
 
     <h2>Найденные периоды:</h2>
-    <ul>
-        {% for period in periods %}
-            <li>{{ period.0 }} - {{ period.1 }}</li>
-        {% empty %}
-            <li>Периоды не найдены.</li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for period in periods %}
+        <li>
+            <a href="{% url 'market_planet_chart' %}?start-date={{ period.0 }}&end-date={{ period.1 }}" target="_blank">
+                {{ period.0 }} - {{ period.1 }}
+            </a>
+        </li>
+    {% empty %}
+        <li>Периоды не найдены.</li>
+    {% endfor %}
+</ul>
+
 </body>
 </html>

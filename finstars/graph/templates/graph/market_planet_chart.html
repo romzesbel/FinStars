@@ -25,9 +25,9 @@
 <script>
     // Функция для установки значений текущего года по умолчанию
     function setDefaultDates() {
-        var currentYear = new Date().getFullYear();
-        var startDate = currentYear + '-01-01';
-        var endDate = currentYear + '-12-31';
+        const currentYear = new Date().getFullYear();
+        const startDate = currentYear + '-01-01';
+        const endDate = currentYear + '-12-31';
 
         $('#start-date').val(startDate);
         $('#end-date').val(endDate);
@@ -39,7 +39,7 @@
 
         // AJAX-запрос на сервер для получения данных по новым датам
         $.ajax({
-            url: '{% url "market_planet_chart" %}',  // Обнови URL на свой
+            url: '{% url "market_planet_chart" %}',  // Убедитесь, что URL корректен
             data: {
                 'start_date': startDate,
                 'end_date': endDate
@@ -54,13 +54,34 @@
         });
     }
 
+    // Функция для преобразования строковых дат в формат YYYY-MM-DD
+    function formatDate(dateStr) {
+        const dateObj = new Date(dateStr);
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
     // Устанавливаем значения текущего года по умолчанию при загрузке страницы
     $(document).ready(function () {
-        setDefaultDates();
+        const urlParams = new URLSearchParams(window.location.search);
+        let startDateFromURL = urlParams.get('start-date');
+        let endDateFromURL = urlParams.get('end-date');
 
-        // При загрузке сразу вызываем обновление графика для текущего года
-        var startDate = $('#start-date').val();
-        var endDate = $('#end-date').val();
+        // Преобразуем даты из URL в формат YYYY-MM-DD, если они есть
+        if (startDateFromURL && endDateFromURL) {
+            startDateFromURL = formatDate(startDateFromURL);
+            endDateFromURL = formatDate(endDateFromURL);
+            $('#start-date').val(startDateFromURL);
+            $('#end-date').val(endDateFromURL);
+        } else {
+            setDefaultDates();
+        }
+
+        // При загрузке сразу вызываем обновление графика
+        const startDate = $('#start-date').val();
+        const endDate = $('#end-date').val();
         updateGraph(startDate, endDate);
     });
 
@@ -69,8 +90,8 @@
         event.preventDefault();
 
         // Получаем введенные даты
-        var startDate = $('#start-date').val();
-        var endDate = $('#end-date').val();
+        const startDate = $('#start-date').val();
+        const endDate = $('#end-date').val();
 
         if (startDate && endDate) {
             // Если даты введены, обновляем график
